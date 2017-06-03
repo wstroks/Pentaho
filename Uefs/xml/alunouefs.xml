@@ -1,0 +1,48 @@
+<Schema name="Aluno-evasao">
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Matricula por Semestre">
+    <Hierarchy name="Matricula por semestre" visible="true" hasAll="true" primaryKey="sk_semestral">
+      <Table name="dim_semestral">
+      </Table>
+      <Level name="Matricula por Semestre" visible="true" table="dim_semestral" column="nome_semestre" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="nome_semestre">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Matricula Anual">
+    <Hierarchy name="Matricula anual" visible="true" hasAll="true" primaryKey="sk_anual">
+      <Table name="dim_anual">
+      </Table>
+      <Level name="Matricula Anual" visible="true" table="dim_anual" column="nome_anual" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="nome_anual">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Turmas ECOMP">
+    <Hierarchy name="Turmas Ecomp" visible="true" hasAll="true" primaryKey="sk_uefsturmas">
+      <Table name="dim_uefsturma">
+      </Table>
+      <Level name="Turmas ecomp" visible="true" table="dim_uefsturma" column="nome_uefs" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="nome_uefs">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="Aluno-Dados" visible="true" cache="true" enabled="true">
+    <Table name="fato_uefs">
+    </Table>
+    <DimensionUsage source="Matricula por Semestre" name="Matricula por Semestre" visible="true" foreignKey="sk_semestre" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Matricula Anual" name="Matricula Anual" visible="true" foreignKey="sk_anual" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Turmas ECOMP" name="Turmas ECOMP" visible="true" foreignKey="sk_turma" highCardinality="false">
+    </DimensionUsage>
+    <Measure name="Numero de Matriculas " column="matriculas" datatype="Integer" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Formandos" column="concluintes" datatype="Integer" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Evasao" column="evasao" datatype="Integer" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Matriculas Novas" column="matriculas_novas" datatype="Integer" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Ingressantes no Curso" column="ingressantes" datatype="Integer" aggregator="sum" visible="true">
+    </Measure>
+    <CalculatedMember name="Porcentagem Evasao" formatString="#0.00%" formula=" [Measures].[Evasao]/([Measures].[Numero de Matriculas ] + [Measures].[Evasao])" dimension="Measures" visible="true">
+    </CalculatedMember>
+  </Cube>
+</Schema>

@@ -1,0 +1,72 @@
+<Schema name="Uefs-Ecomp">
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Dimensao Semestre">
+    <Hierarchy name="Semestre" visible="true" hasAll="true" primaryKey="sk_semestre">
+      <Table name="dim_semestre_pentaho">
+      </Table>
+      <Level name="nome_semestre" visible="true" table="dim_semestre_pentaho" column="semestre_nome" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="semestre_nome">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Dimensao Disciplina">
+    <Hierarchy name="Disciplina" visible="true" hasAll="true" primaryKey="sk_disciplinas">
+      <Table name="dim_disciplinas_pentaho">
+      </Table>
+      <Level name="nome_disciplina" visible="true" table="dim_disciplinas_pentaho" column="disciplinas_nome" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="disciplinas_nome">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="Dimensao Turma">
+    <Hierarchy name="Turma" visible="true" hasAll="true" primaryKey="sk_turma">
+      <Table name="dim_tuma_pentaho">
+      </Table>
+      <Level name="nome_turma" visible="true" table="dim_tuma_pentaho" column="turma_nome" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="turma_nome">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="Disciplina-Dados" visible="true" cache="true" enabled="true">
+    <Table name="fato_evasao_pentaho">
+    </Table>
+    <DimensionUsage source="Dimensao Semestre" name="Dimensao Semestre" visible="true" foreignKey="sk_semestre" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Dimensao Disciplina" name="Dimensao Disciplina" visible="true" foreignKey="sk_disciplina" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="Dimensao Turma" name="Dimensao turma" visible="true" foreignKey="sk_turma" highCardinality="false">
+    </DimensionUsage>
+    <Measure name="Matriculados" column="n_matriculados" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Aprovados" column="n_aprovados" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Reprovado Nota" column="n_reprovadosnota" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Reprovado Falta" column="n_rpFaltas" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Cancelamento" column="n_cancelamento" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Tracamento" column="n_trancamento" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Dispensa" column="n_dispensas" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Desistencia" column="desistencia" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Reprovacao geral" column="n_reprovacao" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+    <CalculatedMember name="Indice Aprovados" formatString="#0.00%" formula="[Measures].[Aprovados]/[Measures].[Matriculados]" dimension="Measures" visible="true">
+    </CalculatedMember>
+    <CalculatedMember name="Indice Reprovado Por Nota" formatString="#0.00%" formula="[Measures].[Reprovado Nota]/[Measures].[Matriculados]" dimension="Measures" visible="true">
+    </CalculatedMember>
+    <CalculatedMember name="Indice Reprovado Por Falta" formatString="#0.00%" formula="[Measures].[Reprovado Falta]/[Measures].[Matriculados]" dimension="Measures" visible="true">
+    </CalculatedMember>
+    <CalculatedMember name="Indice Reprovacao Geral" formatString="#0.00%" formula="[Measures].[Reprovacao geral]/[Measures].[Matriculados]" dimension="Measures" visible="true">
+    </CalculatedMember>
+    <CalculatedMember name="Indice Desistencia " formatString="#0.00%" formula="[Measures].[Desistencia]/[Measures].[Matriculados]" dimension="Measures" visible="true">
+    </CalculatedMember>
+    <CalculatedMember name="Indice Dispensa" formatString="#0.00%" formula="[Measures].[Dispensa]/[Measures].[Matriculados]" dimension="Measures" visible="true">
+    </CalculatedMember>
+    <CalculatedMember name="Indice Tracamento" formatString="#0.00%" formula="[Measures].[Tracamento]/[Measures].[Matriculados]" dimension="Measures" visible="true">
+    </CalculatedMember>
+    <CalculatedMember name="Indice Cancelamento" formatString="#0.00%" formula="[Measures].[Cancelamento]/[Measures].[Matriculados]" dimension="Measures" visible="true">
+    </CalculatedMember>
+    <CalculatedMember name="Situacao Disciplina" formula="IIF(([Measures].[Aprovados]*100/[Measures].[Matriculados])&#62; 60.00, &#39;|Bom|style= green&#39;,IIF(([Measures].[Aprovados]*100/[Measures].[Matriculados])&#60;59.00 AND([Measures].[Aprovados]*100/[Measures].[Matriculados])&#62;50.00 , &#39;|Mediano|style= Yellow&#39;,&#39;|Ruim|style=red&#39;))" dimension="Measures" visible="true">
+    </CalculatedMember>
+  </Cube>
+</Schema>
