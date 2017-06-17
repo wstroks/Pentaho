@@ -1,0 +1,82 @@
+<Schema name="Exame Final - DW">
+  <Dimension type="StandardDimension" visible="true" name="Dim Funcionario">
+    <Hierarchy name="funcionario" visible="true" hasAll="true" primaryKey="sk_funcionario">
+      <Table name="dim_funcionario" alias="">
+      </Table>
+      <Level name="cod_funcionario" visible="true" table="dim_funcionario" column="id_funcionario" type="Integer" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="id_funcionario">
+      </Level>
+      <Level name="Nome" visible="true" table="dim_funcionario" column="nome" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="nome">
+      </Level>
+      <Level name="Sobrenome" visible="true" table="dim_funcionario" column="sobrenome" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="sobrenome">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" name="Dim Cargo">
+    <Hierarchy name="Cargo" visible="true" hasAll="true" primaryKey="sk_cargo">
+      <Table name="dim_cargo" alias="">
+      </Table>
+      <Level name="id_cargo" visible="true" table="dim_cargo" column="id_cargo" type="Integer" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="id_cargo">
+      </Level>
+      <Level name="cargo" visible="true" table="dim_cargo" column="cargo" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="cargo">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" name="Dim Divisao">
+    <Hierarchy name="divisao" visible="true" hasAll="true" primaryKey="sk_divisao">
+      <Table name="dim_divisao" alias="">
+      </Table>
+      <Level name="id_divisao" visible="true" table="dim_divisao" column="id_divisao" type="Integer" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="id_divisao">
+      </Level>
+      <Level name="divisao" visible="true" table="dim_divisao" column="divisao" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="divisao">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" name="Dim Departamento">
+    <Hierarchy name="Departamento" visible="true" hasAll="true" primaryKey="sk_departamento">
+      <Table name="dim_departamento" alias="">
+      </Table>
+      <Level name="id_departamento" visible="true" table="dim_departamento" column="id_departamento" type="Integer" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="id_departamento">
+      </Level>
+      <Level name="departamento" visible="true" table="dim_departamento" column="departamento" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" captionColumn="departamento">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="TimeDimension" visible="true" name="Dim Data">
+    <Hierarchy name="data" visible="true" hasAll="true" primaryKey="sk_data">
+      <Table name="dim_data" alias="">
+      </Table>
+      <Level name="num_ano" visible="true" table="dim_data" column="num_ano" nameColumn="num_ano" type="String" uniqueMembers="false" levelType="TimeYears" hideMemberIf="Never" captionColumn="num_ano">
+      </Level>
+      <Level name="ano_mes" visible="true" table="dim_data" column="ano_mes" nameColumn="ano_mes" type="String" uniqueMembers="false" levelType="TimeUndefined" hideMemberIf="Never" captionColumn="ano_mes">
+      </Level>
+      <Level name="num_mes" visible="true" table="dim_data" column="num_mes" nameColumn="num_mes" type="String" uniqueMembers="false" levelType="TimeMonths" hideMemberIf="Never" captionColumn="num_mes">
+      </Level>
+      <Level name="nom_mes" visible="true" table="dim_data" column="nom_mes" nameColumn="nom_mes" type="String" uniqueMembers="false" levelType="TimeMonths" hideMemberIf="Never" captionColumn="nom_mes">
+      </Level>
+      <Level name="ano_mes_dia" visible="true" table="dim_data" column="ano_mes_dia" nameColumn="ano_mes_dia" type="String" uniqueMembers="false" levelType="TimeDays" hideMemberIf="Never" captionColumn="ano_mes_dia">
+      </Level>
+      <Level name="data_dia" visible="true" table="dim_data" column="data_dia" nameColumn="data_dia" type="Date" uniqueMembers="false" levelType="TimeDays" captionColumn="data_dia">
+      </Level>
+      <Level name="num_dia" visible="true" table="dim_data" column="num_dia" nameColumn="num_dia" type="String" uniqueMembers="false" levelType="TimeDays" hideMemberIf="Never" captionColumn="num_dia">
+      </Level>
+      <Level name="nom_dia" visible="true" table="dim_data" column="nom_dia" nameColumn="nom_dia" type="String" uniqueMembers="false" levelType="TimeDays" hideMemberIf="Never" captionColumn="nom_dia">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="Cubo Exame final DW" visible="true" cache="true" enabled="true">
+    <Table name="fato_folhadepagamento" alias="">
+    </Table>
+    <DimensionUsage source="Dim Funcionario" name="Funcionario" visible="true" foreignKey="sk_funcionario">
+    </DimensionUsage>
+    <DimensionUsage source="Dim Cargo" name="Cargo" visible="true" foreignKey="sk_cargo">
+    </DimensionUsage>
+    <DimensionUsage source="Dim Departamento" name="Departamento" visible="true" foreignKey="sk_departamento">
+    </DimensionUsage>
+    <DimensionUsage source="Dim Divisao" name="Divisao" visible="true" foreignKey="sk_divisao">
+    </DimensionUsage>
+    <DimensionUsage source="Dim Data" name="Data" visible="true" foreignKey="sk_data">
+    </DimensionUsage>
+    <Measure name="Salario" column="salario" datatype="Numeric" aggregator="sum" visible="true">
+    </Measure>
+  </Cube>
+</Schema>
